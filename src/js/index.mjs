@@ -1,5 +1,17 @@
-const game = new Phaser.Game(480, 320, Phaser.CANVAS, null, {
-  preload: preload, create: create, update: update
+import Game from './game.mjs'
+import Phaser from 'phaser'
+
+const game = new Phaser.Game({
+  type: Phaser.AUTO,
+  width: 800,
+  height: 600,
+  physics: {
+    default: 'arcade',
+    arcade: {
+      gravity: {y: 200}
+    }
+  },
+  scene: {preload: preload, create: create, update: update}
 });
 
 let ball
@@ -84,7 +96,7 @@ function startGame() {
 
 function ballHitPaddle(ball, paddle) {
   ball.animations.play('wobble');
-  ball.body.velocity.x = -1*5*(paddle.x-ball.x);
+  ball.body.velocity.x = -1 * 5 * (paddle.x - ball.x);
 }
 
 function ballLeaveScreen() {
@@ -99,6 +111,7 @@ function ballLeaveScreen() {
       ball.body.velocity.set(150, -150);
     }, this);
   } else {
+    playing = false;
     alert('You lost, game over!');
     location.reload();
   }
